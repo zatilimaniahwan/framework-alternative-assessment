@@ -23,4 +23,5 @@ urlpatterns = [
     path('', home_view, name='home'),
     path('shelter/', include('ShelterDirectory.urls', namespace='shelter')),
     path('auth/', include('UserManagement.urls', namespace='auth')),
+    path('aid/', include('AidRequestManagement.urls', namespace='aid')),
 ]

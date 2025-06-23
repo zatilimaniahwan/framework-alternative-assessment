@@ -65,7 +65,7 @@
                 <a class="dropdown-item" href="#">Create a New Request</a>
               {% endif %}
               {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
-              <a class="dropdown-item" href="#">View Request</a>
+              <a class="dropdown-item" {% if request.path == '/aid/list' %}active{% endif %}" href="{% url 'aid:aid_request_list' %}">View Request</a>
               {% endif %}
             </div>
           </li>

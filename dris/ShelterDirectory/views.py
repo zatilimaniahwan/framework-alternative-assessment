@@ -18,7 +18,7 @@ def get_columns():
                 {
                     'url_name': '',
                     'label': 'Edit',
-                    'class': 'btn-primary'
+                    'class': 'btn-info'
                 }
             ]
         }

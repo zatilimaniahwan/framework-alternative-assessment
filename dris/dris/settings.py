@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'UserManagement',
+    'DisasterReporting',
+    'AidRequestManagement',
+    'ShelterDirectory',
+    'VolunteerCoordination',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'UserManagement.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

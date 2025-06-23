@@ -1,18 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
-# This file defines the User and Role models for the User Management module.
-# The User model represents a user in the system, while the Role model defines the different roles a user can have.
-
+# Role model defines the different roles a user can have.
 class Role(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=100,
         unique=True,
         choices=[
             ('authorities', 'Authorities'),
             ('citizens', 'Citizens'),
-            ('volunteers', 'Volunteers'),
+            ('Volunteer', 'Volunteer'),
         ]
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -20,17 +17,54 @@ class Role(models.Model):
     def __str__(self):
         return self.name
 
-# This model represents a user in the system.
-# It includes fields for the user's name, phone number, email, password, role, and the date the user was created.
-# The email field is unique and is used for login purposes.
-class User(models.Model):
-    id = models.AutoField(primary_key=True)
-    name=models.CharField(max_length=255)
+# Custom user model extending Django's AbstractUser and adding a role field.
+class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    email = models.EmailField(unique=True) # used for login
-    password = models.CharField(max_length=128)  # Store hashed passwords
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='users')
+    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.email
+
+# This model represents a volunteer in the system.
+class Volunteer(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    skills = models.TextField(blank=True, null=True)
+    availability_status = models.BooleanField(default=True)
+    availability_date_time = models.DateTimeField(blank=True, null=True)
+    availability_location = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Volunteer: {self.user.email}"
+
+# This model represents a citizen in the system.
+class Citizen(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='citizens')
+    address = models.CharField(max_length=255, blank=True, null=True)
+    state = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Citizen: {self.user.email}"
+
+# Organization model represents an organization in the system.
+class Organization(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='created_organizations')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='updated_organizations', blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+# This model represents an authority in the system.
+class Authority(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='authorities')
+    organization_id = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='authorities', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}{{ site_name }}{% endblock %}
+{% block content %}
+{% if not request.user.is_authenticated %}
+<div class="container mt-4">
+  <div class="row mb-4">
+    <!-- Shelter Card -->
+    <div class="col-md-3 mb-3">
+      <div class="card text-center shadow h-100">
+        <div class="card-body">
+          <div class="mb-2">
+            <i class="fas fa-home fa-2x text-primary"></i>
+          </div>
+          <h5 class="card-title">Shelters</h5>
+          <h2 class="card-text">{{ shelter_count }}</h2>
+        </div>
+      </div>
+    </div>
+    <!-- Disaster Report Card -->
+    <div class="col-md-3 mb-3">
+      <div class="card text-center shadow h-100">
+        <div class="card-body">
+          <div class="mb-2">
+            <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+          </div>
+          <h5 class="card-title">Disaster Reports</h5>
+          <h2 class="card-text">{{ disaster_report_count }}</h2>
+        </div>
+      </div>
+    </div>
+    <!-- Aid Request Card -->
+    <div class="col-md-3 mb-3">
+      <div class="card text-center shadow h-100">
+        <div class="card-body">
+          <div class="mb-2">
+            <i class="fas fa-hands-helping fa-2x text-success"></i>
+          </div>
+          <h5 class="card-title">Aid Requests</h5>
+          <h2 class="card-text">{{ aid_request_count }}</h2>
+        </div>
+      </div>
+    </div>
+    <!-- Volunteer Card -->
+    <div class="col-md-3 mb-3">
+      <div class="card text-center shadow h-100">
+        <div class="card-body">
+          <div class="mb-2">
+            <i class="fas fa-user-friends fa-2x text-info"></i>
+          </div>
+          <h5 class="card-title">Volunteers</h5>
+          <h2 class="card-text">{{ volunteer_count }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-info mb-3">
+        <div class="card-header bg-info text-white">
+          <i class="fas fa-info-circle"></i> How to Get Involved
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li><strong>Lodge a Disaster Report:</strong> If you witness or are affected by a disaster, please submit a report through the Disaster Report section to help us respond quickly.</li>
+            <li><strong>Request Aid:</strong> If you or your community needs assistance, use the Aid Request feature to let us know your needs.</li>
+            <li><strong>Become a Volunteer:</strong> Join our volunteer network to help those in need during disasters. Sign up in the Volunteer section to get started!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

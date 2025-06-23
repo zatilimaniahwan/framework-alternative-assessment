@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Register</h2>
+    {% if form_errors %}
+    <div class="alert alert-danger mt-3">
+      <ul>
+        {% for err in form_errors.values %}
+          <li>{{ err }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  {% include "components/form/form.html" with fieldConfig=fieldConfig submit_label="Register" %}
+</div>
+{% endblock %}

@@ -1,11 +1,15 @@
+{% if edit_id %}
+  <input type="hidden" name="edit_id" value="{{ edit_id }}">
+{% endif %}
+
 <div class="input-group mb-3">
   {% if field.type == "select" %}
-    {% include "select/select.html" with field=field %}
+    {% include "components/select/select.html" with field=field %}
   {% elif field.type == "textarea" %}
-    {% include "text-area/text-area.html" with field=field %}
+    {% include "components/text-area/text-area.html" with field=field %}
   {% elif field.type == "file" %}
-    {% include "file-input/file-input.html" with field=field %}
+    {% include "components/file-input/file-input.html" with field=field %}
   {% else %}
-    {% include "input/input.html" with field=field %}
+    {% include "components/input/input.html" with field=field %}
   {% endif %}
 </div>

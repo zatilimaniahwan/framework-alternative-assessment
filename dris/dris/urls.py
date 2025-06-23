@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
     path('shelter/', include('ShelterDirectory.urls', namespace='shelter')),
+    path('auth/', include('UserManagement.urls', namespace='auth')),
 ]

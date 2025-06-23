@@ -1,11 +1,74 @@
 {% extends "base.html" %}
 {% block title %}{{ site_name }}{% endblock %}
 {% block content %} 
-   <div class="d-flex align-items-center mb-3">
+  <div class="d-flex align-items-center mb-3">
     <h2 class="flex-grow-1 mb-0">Shelter List</h2>
-    <a href="#" class="btn btn-primary ms-3">
+    <a href="#" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#addShelterModal">
       <i class="fas fa-plus me-1"></i> Add New
     </a>
   </div>
   {% include "components/table/table.html" with columns=columns data=data %} 
+
+  <!-- Add Shelter Modal -->
+  <div class="modal fade" id="addShelterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addShelterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addShelterModalLabel">
+            {% if edit_id %}Edit Shelter{% else %}Add New Shelter{% endif %}
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% include "components/form/form.html" with fieldConfig=fieldConfig submit_label=edit_id|yesno:"Update,Add Shelter" cancel_label="Cancel" show_modal=show_modal edit_id=edit_id %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% if show_modal %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      var addShelterModal = new bootstrap.Modal(document.getElementById('addShelterModal'));
+      addShelterModal.show();
+    }, 100);
+  });
+</script>
+{% endif %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById('addShelterModal');
+  if (modal) {
+    // Reset form when modal is closed
+    modal.addEventListener('hide.bs.modal', function(e) {
+      var form = modal.querySelector('form');
+      if (form) {
+        form.reset();
+        // Remove edit_id hidden input if present
+        var editInput = form.querySelector('input[name="edit_id"]');
+        if (editInput) editInput.remove();
+      }
+    });
+    // Reset form when modal is opened via Add New (not Edit)
+    document.querySelectorAll('[data-bs-target="#addShelterModal"]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        // Only reset if not editing (i.e., no ?edit= in URL)
+        if (!window.location.search.includes('edit=')) {
+          var form = modal.querySelector('form');
+          if (form) {
+            form.reset();
+            // Remove edit_id hidden input if present
+            var editInput = form.querySelector('input[name="edit_id"]');
+            if (editInput) editInput.remove();
+          }
+        }
+      });
+    });
+  }
+});
+</script>
 {% endblock %}

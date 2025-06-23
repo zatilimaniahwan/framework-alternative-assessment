@@ -21,7 +21,11 @@
           <td>
             {% if col.type == "action" %}
               {% for action in col.actions %}
-                <a href="" class="btn btn-sm {{ action.class|default:'btn-primary' }}">{{ action.label }}</a>
+                {% if action.label == "Edit" %}
+                  <a href="?edit={{ row.id }}" class="btn btn-sm {{ action.class|default:'btn-primary' }}">Edit</a>
+                {% else %}
+                  <a href="" class="btn btn-sm {{ action.class|default:'btn-primary' }}">{{ action.label }}</a>
+                {% endif %}
               {% endfor %}
             {% else %}
               {{ row|get_item:col.key }}

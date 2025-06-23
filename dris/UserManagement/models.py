@@ -3,13 +3,14 @@ from django.contrib.auth.models import AbstractUser
 
 # Role model defines the different roles a user can have.
 class Role(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=100,
         unique=True,
         choices=[
             ('authorities', 'Authorities'),
             ('citizens', 'Citizens'),
-            ('Volunteer', 'Volunteer'),
+            ('volunteers', 'Volunteers'),
         ]
     )
     created_at = models.DateTimeField(auto_now_add=True)

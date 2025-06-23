@@ -1,11 +1,11 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
   <div class="container-fluid ms-5">
     <a class="navbar-brand" href="#">
       <img
         src="{% static 'img/nadma-logo.png' %}"
         alt="NADMA Logo"
-        width="110"
+        width="120"
         height="60"
         class="d-inline-block align-top"
       />
@@ -32,7 +32,7 @@
             Home
           </a>
         </li>
-         <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
@@ -44,45 +44,80 @@
           >
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#">Directory</a>
+             {% if request.user.role and request.user.role.name == 'authorities' %}
             <a class="dropdown-item {% if request.path == '/shelter/list' %}active{% endif %}" href="{% url 'shelter:shelter_list' %}">View List</a>
+            {% endif %}
           </div>
         </li>
-
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-            >Aids Request</a
-          >
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Create a New Request</a>
-            <a class="dropdown-item" href="#">View Request</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-            >Disaster Report</a
-          >
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Create a New Report</a>
-            <a class="dropdown-item" href="#">View Report</a>
-          </div>
-        </li>
+        {% if request.user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Aids Request</a
+            >
+            <div class="dropdown-menu">
+              {% if request.user.role and request.user.role.name == 'citizens' %}
+                <a class="dropdown-item" href="#">Create a New Request</a>
+              {% endif %}
+              {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
+              <a class="dropdown-item" href="#">View Request</a>
+              {% endif %}
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Volunteer Coordination</a
+            >
+            <div class="dropdown-menu">
+              {% if request.user.role and request.user.role.name == 'volunteers' %}
+                <a class="dropdown-item" href="#">Become a Volunteer</a>
+              {% endif %}
+              {% if request.user.role and request.user.role.name == 'authorities' %}
+                <a class="dropdown-item" href="#">Assign Volunteer</a>
+              {% endif %}
+            </div>
+          </li>
+             <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Disaster Report</a
+            >
+            <div class="dropdown-menu">
+              {% if request.user.role and request.user.role.name == 'citizens' %}
+                <a class="dropdown-item" href="#">Create a New Report</a>
+              {% endif %}
+              {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
+              <a class="dropdown-item" href="#">View Report</a>
+              {% endif %}
+            </div>
+          </li>
+        {% endif %}
       </ul>
-      <div class="d-flex">
-        <a class="btn btn-success me-2">Login</a>
-        <a class="btn btn-primary">Register</a>
-      </div>
+  <div class="d-flex align-items-center">
+  {% if not request.user.is_authenticated %}
+    <a class="btn btn-success me-2" href="{% url 'auth:login' %}">Login</a>
+    <a class="btn btn-primary" href="{% url 'auth:register' %}">Register</a>
+  {% else %}
+    <span class="me-2 align-middle">Hi, {{ request.user.username }}</span>
+    <a class="btn btn-danger align-middle" href="{% url 'auth:logout' %}">Logout</a>
+  {% endif %}
+</div>
     </div>
   </div>
 </nav>

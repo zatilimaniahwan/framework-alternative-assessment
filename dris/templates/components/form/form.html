@@ -1,7 +1,14 @@
 <form method="{{ method|default:'post' }}" action="{{ action|default:'' }}" {% if enctype %}enctype="{{ enctype }}"{% endif %}>
   {% csrf_token %}
+  {% if edit_id %}
+  <input type="hidden" name="edit_id" value="{{ edit_id }}">
+  {% endif %}
   {% for field in fieldConfig %}
-    {% include "field.html" with field=field %}
+     {% include "components/form/field.html" with field=field %}
   {% endfor %}
-  <button type="submit" class="btn btn-primary">{{ submit_label|default:"Submit" }}</button>
+  <div class="mt-5">
+    <button type="submit" class="btn btn-success">{{ submit_label|default:"Submit" }}</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancel_label|default:"Cancel" }}</button>
+  </div>
+
 </form>

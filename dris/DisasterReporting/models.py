@@ -1,6 +1,9 @@
 from django.db import models
 from UserManagement.models import User
 # Create your models here.
+
+# Disaster Reporting Model
+# This model is used to report disasters with details such as type, location, image, description, and status.
 class DisasterReport(models.Model):
     id= models.AutoField(primary_key=True)
     reporter_name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='disaster_reports')

@@ -8,7 +8,8 @@
   {% endfor %}
   <div class="mt-5">
     <button type="submit" class="btn btn-success">{{ submit_label|default:"Submit" }}</button>
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancel_label|default:"Cancel" }}</button>
+    {% if request.resolver_match.url_name != "register" and request.resolver_match.url_name != "login" %}
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancel_label|default:"Cancel" }}</button>
+    {% endif %}
   </div>
-
 </form>

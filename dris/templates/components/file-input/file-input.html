@@ -1,0 +1,14 @@
+  <div>
+    <label for="{{ field.id|default:field.name }}" class="col-sm-2 col-form-label">
+        {{ field.label|default:'' }}
+        {% if field.required %}<span class="text-danger">*</span>{% endif %}</label>
+  <input
+    type="file"
+    class="form-control custom-file-input"
+    id="{{ field.id|default:field.name }}"
+    name="{{ field.name }}"
+    accept="application/pdf"
+    {% if field.disabled %}disabled{% endif %}
+  >
+  </div>
+  

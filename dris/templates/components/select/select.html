@@ -1,0 +1,21 @@
+<div>
+    <label for="{{ field.id|default:field.name }}" class="col-sm-2 col-form-label">
+        {{ field.label|default:'' }}
+        {% if field.required %}<span class="text-danger">*</span>{% endif %}</label>
+<select
+  name="{{ field.name }}"
+  id="{{ field.id|default:field.name }}"
+  class="form-select"
+  {% if field.required %}required{% endif %}
+  {% if field.disabled %}disabled{% endif %}
+>
+  {% if field.placeholder %}
+    <option value="" disabled {% if not field.value %}selected{% endif %}>{{ field.placeholder }}</option>
+  {% endif %}
+  {% for option in field.options %}
+    <option value="{{ option.value }}" {% if option.value == field.value %}selected{% endif %}>
+      {{ option.label }}
+    </option>
+  {% endfor %}
+</select>
+</div>

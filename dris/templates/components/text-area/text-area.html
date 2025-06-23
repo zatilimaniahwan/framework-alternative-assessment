@@ -1,0 +1,14 @@
+  <div>
+    <label for="{{ field.id|default:field.name }}" class="col-sm-2 col-form-label">
+        {{ field.label|default:'' }}
+        {% if field.required %}<span class="text-danger">*</span>{% endif %}</label>
+<textarea
+  name="{{ field.name }}"
+  id="{{ field.id|default:field.name }}"
+  class="form-control"
+  rows="{{ field.rows|default:'3' }}"
+  placeholder="{{ field.placeholder|default:'' }}"
+  {% if field.required %}required{% endif %}
+  {% if field.disabled %}disabled{% endif %}
+>{{ field.value|default:'' }}</textarea>
+</div>

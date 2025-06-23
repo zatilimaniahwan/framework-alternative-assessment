@@ -1,0 +1,11 @@
+<div class="form-floating">
+        <input
+        type="{{ field.type|default:'text' }}"
+        name="{{ field.name }}"
+        id="{{ field.id|default:field.name }}"
+        class="form-control"
+        value="{{ field.value|default:'' }}"
+        placeholder="{% if field.required %}{{ field.placeholder|default:'' }} *{% else %}{{ field.placeholder|default:'' }}{% endif %}"
+        {% if field.required %}required{% endif %}
+        {% if field.disabled %}disabled{% endif %}/>
+</div>

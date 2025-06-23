@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ site_name }}{% endblock %}
+{% block content %} 
+   <div class="d-flex align-items-center mb-3">
+    <h2 class="flex-grow-1 mb-0">Shelter List</h2>
+    <a href="#" class="btn btn-primary ms-3">
+      <i class="fas fa-plus me-1"></i> Add New
+    </a>
+  </div>
+  {% include "components/table/table.html" with columns=columns data=data %} 
+{% endblock %}

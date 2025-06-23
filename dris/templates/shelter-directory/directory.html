@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Shelter Directory{% endblock %}
+{% block content %}
+<div class="container mt-3">
+  <h2 class="flex-grow-1 mb-3">Shelter Directory</h2>
+
+  <!-- Filter Form in Collapse -->
+  <button class="btn btn-outline-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+    Filter Shelters
+  </button>
+  <div class="collapse mb-4{% if request.GET.name or request.GET.code or request.GET.location or request.GET.availability or request.GET.keep_open %} show{% endif %}" id="filterCollapse">
+    <div class="card border card-body">
+      <form method="get" class="row g-2" id="filterForm">
+        <div class="col-md-3">
+          <input type="text" name="name" class="form-control" placeholder="Name" value="{{ request.GET.name }}">
+        </div>
+        <div class="col-md-2">
+          <input type="text" name="code" class="form-control" placeholder="Code" value="{{ request.GET.code }}">
+        </div>
+        <div class="col-md-3">
+          <input type="text" name="location" class="form-control" placeholder="Location" value="{{ request.GET.location }}">
+        </div>
+        <div class="col-md-2">
+          <select name="availability" class="form-select">
+            <option value="">All Availability</option>
+            <option value="1" {% if request.GET.availability == '1' %}selected{% endif %}>Available</option>
+            <option value="0" {% if request.GET.availability == '0' %}selected{% endif %}>Not Available</option>
+          </select>
+        </div>
+        <div class="col-md-1 d-grid">
+          <button type="submit" class="btn btn-primary" id="applyFilterBtn">Apply</button>
+        </div>
+        <div class="col-md-1 d-grid">
+          <a href="{% url 'shelter:shelter_directory' %}?keep_open=1" class="btn btn-outline-secondary" id="clearFilterBtn">Clear</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    {% for shelter in data %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ shelter.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ shelter.code }}</h6>
+            <p class="card-text">
+              <strong>Location:</strong> {{ shelter.location }}<br>
+              <strong>Capacity:</strong> {{ shelter.capacity }}<br>
+              <strong>Availability:</strong>
+              {% if shelter.availability %}
+                <span class="badge rounded-pill bg-success">Available</span>
+              {% else %}
+                <span class="badge rounded-pill bg-danger">Not Available</span>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info">No shelters found.</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var filterCollapse = document.getElementById('filterCollapse');
+  var filterForm = document.getElementById('filterForm');
+  var clearBtn = document.getElementById('clearFilterBtn');
+
+});
+</script>
+{% endblock %}

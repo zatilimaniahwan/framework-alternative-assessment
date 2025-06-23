@@ -22,7 +22,7 @@
             {% if col.type == "action" %}
               {% for action in col.actions %}
                 {% if action.label == "Edit" %}
-                  <a href="?edit={{ row.id }}" class="btn btn-sm {{ action.class|default:'btn-primary' }}">Edit</a>
+                  <a href="?edit={{ row.id }}" class="btn {{ action.class|default:'btn-primary' }}">Edit</a>
                 {% else %}
                   <a href="" class="btn btn-sm {{ action.class|default:'btn-primary' }}">{{ action.label }}</a>
                 {% endif %}

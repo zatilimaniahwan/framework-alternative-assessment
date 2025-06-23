@@ -174,3 +174,27 @@ class ShelterDirectoryView(View):
                     created_by=authority,
                 )
         return redirect(reverse('shelter:shelter_list'))
+
+class ShelterDirectoryCardView(View):
+    def get(self, request):
+        # Get filter values from GET parameters
+        name = request.GET.get('name', '').strip()
+        code = request.GET.get('code', '').strip()
+        location = request.GET.get('location', '').strip()
+        availability = request.GET.get('availability', '').strip()
+
+        shelters = Shelter.objects.all()
+        if name:
+            shelters = shelters.filter(name__icontains=name)
+        if code:
+            shelters = shelters.filter(code__icontains=code)
+        if location:
+            shelters = shelters.filter(location__icontains=location)
+        if availability != '':
+            shelters = shelters.filter(availability=availability)
+
+        return render(request, 'shelter-directory/directory.html', {
+            'data': shelters,
+        })
+
+

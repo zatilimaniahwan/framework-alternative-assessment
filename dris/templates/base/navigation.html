@@ -43,7 +43,7 @@
             >Shelter</a
           >
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Directory</a>
+             <a class="dropdown-item {% if request.path == '/shelter/directory' %}active{% endif %}" href="{% url 'shelter:shelter_directory' %}">Directory</a>
              {% if request.user.role and request.user.role.name == 'authorities' %}
             <a class="dropdown-item {% if request.path == '/shelter/list' %}active{% endif %}" href="{% url 'shelter:shelter_list' %}">View List</a>
             {% endif %}

@@ -85,6 +85,9 @@ class ShelterDirectoryView(View):
         edit_id = request.GET.get('edit')
         show_modal = False
         fieldConfig = get_field_config()
+        user_role = ''
+        if request.user.is_authenticated and hasattr(request.user, 'role') and request.user.role:
+            user_role = request.user.role.name.lower()
         if edit_id:
             try:
                 shelter = Shelter.objects.get(id=edit_id)
@@ -106,6 +109,7 @@ class ShelterDirectoryView(View):
             'fieldConfig': fieldConfig,
             'show_modal': show_modal,
             'edit_id': edit_id or '',
+            'user_role': user_role,
         })
 
     def post(self, request):

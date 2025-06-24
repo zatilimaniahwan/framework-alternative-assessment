@@ -148,6 +148,9 @@ class AidRequestView(View):
         show_modal = False
         data = request.GET if request.GET else None
         fieldConfig = get_aid_request_field_config(data=data, request=request)
+        user_role = ''
+        if request.user.is_authenticated and hasattr(request.user, 'role') and request.user.role:
+            user_role = request.user.role.name.lower()
         if edit_id:
             try:
                 aid = AidRequest.objects.get(id=edit_id)
@@ -175,6 +178,7 @@ class AidRequestView(View):
             'fieldConfig': fieldConfig,
             'show_modal': show_modal,
             'edit_id': edit_id or '',
+            'user_role': user_role,
         })
 
     def post(self, request):

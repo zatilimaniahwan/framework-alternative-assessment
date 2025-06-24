@@ -1,3 +1,6 @@
+# Author: Nurzatilimani binti Muhamad Ahwan
+# Matric No: 24200114
+
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -7,7 +10,13 @@ class LoginRequiredMiddleware:
 
     def __call__(self, request):
         restricted_paths = [
-            '/shelter/list',  # adjust to your actual URL patterns
+            '/shelter/list',
+            '/disaster-reporting/list',
+            '/auth/volunteers/',
+            '/auth/citizens/',
+            '/auth/authorities/',
+            '/aid/list',
+            '/volunteer/volunteer-tasks/list',
         ]
         auth_paths = [
             reverse('auth:login'),
@@ -15,7 +24,7 @@ class LoginRequiredMiddleware:
         ]
         # Redirect authenticated users away from login/register
         if request.user.is_authenticated and request.path in auth_paths:
-            return redirect('home')  # or your dashboard url name
+            return redirect('home') 
 
         # Redirect unauthenticated users from restricted paths
         if any(request.path.startswith(path) for path in restricted_paths):

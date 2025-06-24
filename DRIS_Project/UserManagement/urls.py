@@ -1,3 +1,6 @@
+# Author: Nurzatilimani binti Muhamad Ahwan
+# Matric No: 24200114
+
 from django.urls import path
 from .views import  *
 app_name = "auth"

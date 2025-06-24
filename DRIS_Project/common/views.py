@@ -1,3 +1,6 @@
+# Author: Nurzatilimani binti Muhamad Ahwan
+# Matric No: 24200114
+
 from django.shortcuts import render
 from ShelterDirectory.models import Shelter
 from DisasterReporting.models import DisasterReport

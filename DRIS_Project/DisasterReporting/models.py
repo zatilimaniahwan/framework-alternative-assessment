@@ -1,3 +1,6 @@
+# Author: Nurzatilimani binti Muhamad Ahwan
+# Matric No: 24200114
+
 from django.db import models
 from UserManagement.models import Citizen, CustomUser
 # Create your models here.

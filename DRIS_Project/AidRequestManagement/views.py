@@ -1,3 +1,6 @@
+# Author: Nurzatilimani binti Muhamad Ahwan
+# Matric No: 24200114
+
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import AidRequest

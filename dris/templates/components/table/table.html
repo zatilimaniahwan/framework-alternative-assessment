@@ -32,8 +32,25 @@
                     <a href="?edit={{ row.id }}" class="btn {{ action.class|default:'btn-primary' }}">
                       <i class="fas fa-pencil-alt"></i> Edit
                     </a>
+                  {% elif action.label == "View Volunteers" %}
+                    <a href="{% url action.url_name row.id %}" class="btn {{ action.class|default:'btn-primary' }}">
+                      <i class="fas fa-users"></i> View Volunteers
+                    </a>
+                  {% elif action.label == "Assign to Task" %}
+                    {% if task.status != "running" %}
+                      <span class="badge rounded-pill bg-secondary">Assignment Closed</span>
+                    {% elif row.assigned %}
+                      <span class="badge rounded-pill bg-success">Assigned</span>
+                    {% else %}
+                      <form method="post" action="{% url 'volunteer:assign_volunteer_to_task' task.id row.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning">
+                          <i class="fas fa-user-plus"></i> Assign to Task
+                        </button>
+                      </form>
+                    {% endif %}
                   {% else %}
-                    <a href="" class="btn btn-sm {{ action.class|default:'btn-primary' }}">{{ action.label }}</a>
+                    <a href="" class="btn  {{ action.class|default:'btn-primary' }}">{{ action.label }}</a>
                   {% endif %}
                 {% endfor %}
               </td>

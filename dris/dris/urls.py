@@ -25,4 +25,5 @@ urlpatterns = [
     path('auth/', include('UserManagement.urls', namespace='auth')),
     path('aid/', include('AidRequestManagement.urls', namespace='aid')),
     path('disaster-reporting/', include('DisasterReporting.urls', namespace='disaster_reporting')),
+    path('volunteer/', include('VolunteerCoordination.urls', namespace='volunteer')),
 ]

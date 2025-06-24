@@ -100,11 +100,8 @@
               >Disaster Report</a
             >
             <div class="dropdown-menu">
-              {% if request.user.role and request.user.role.name == 'citizens' %}
-                <a class="dropdown-item" href="#">Create a New Report</a>
-              {% endif %}
               {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
-              <a class="dropdown-item" href="#">View Report</a>
+              <a class="dropdown-item" {% if request.path == '/disaster-reporting/list' %}active{% endif %}" href="{% url 'disaster-reporting:disaster_report_list' %}">View Report</a>
               {% endif %}
             </div>
           </li>

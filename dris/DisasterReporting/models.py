@@ -15,7 +15,7 @@ class DisasterReport(models.Model):
         ('High', 'High'),
         ('Critical', 'Critical'),
     ], default='Low', help_text='Select the severity level of the disaster')
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     date_reported = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, default='Open', choices=[
         ('Open', 'Open'),

@@ -19,9 +19,9 @@ def register_view(request):
         {'type': 'text', 'name': 'address', 'label': 'Address', 'required': True, 'show_for': ['citizens']},
         {'type': 'text', 'name': 'state', 'label': 'State', 'required': True, 'show_for': ['citizens']},
         {'type': 'text', 'name': 'skills', 'label': 'Skills', 'required': True, 'show_for': ['volunteers']},
-        {'type': 'checkbox', 'name': 'availability_status', 'label': 'Available?', 'required': False, 'show_for': ['volunteers']},
-        {'type': 'datetime-local', 'name': 'availability_date_time', 'label': 'Available Date/Time', 'required': False, 'show_for': ['volunteers']},
-        {'type': 'text', 'name': 'availability_location', 'label': 'Available Location', 'required': False, 'show_for': ['volunteers']},
+        {'type': 'checkbox', 'name': 'availability_status', 'label': 'Available?', 'required': True, 'show_for': ['volunteers']},
+        {'type': 'datetime-local', 'name': 'availability_date_time', 'label': 'Available Date/Time', 'required': True, 'show_for': ['volunteers']},
+        {'type': 'text', 'name': 'availability_location', 'label': 'Available Location', 'required': True, 'show_for': ['volunteers']},
     ]
 
     errors = {}

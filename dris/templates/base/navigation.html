@@ -84,6 +84,7 @@
             </div>
           </li>
           {% endif %}
+            {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
              <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -95,11 +96,30 @@
               >Disaster Report</a
             >
             <div class="dropdown-menu">
-              {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
+            
               <a class="dropdown-item" {% if request.path == '/disaster-reporting/list' %}active{% endif %}" href="{% url 'disaster-reporting:disaster_report_list' %}">View Report</a>
-              {% endif %}
+         
             </div>
           </li>
+            {% endif %}
+            {% if request.user.role and request.user.role.name == 'authorities' %}
+             <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >User Management</a
+            >
+            <div class="dropdown-menu">
+              <a class="dropdown-item" {% if request.path == '/auth/volunteers' %}active{% endif %}" href="{% url 'auth:volunteer_list' %}">View Volunteers</a>
+              <a class="dropdown-item" {% if request.path == '/auth/citizens' %}active{% endif %}" href="{% url 'auth:citizen_list' %}">View Citizens</a>
+                <a class="dropdown-item" {% if request.path == '/auth/authorities' %}active{% endif %}" href="{% url 'auth:authority_list' %}">View Authorities</a>
+            </div>
+          </li>
+               {% endif %}
         {% endif %}
       </ul>
   <div class="d-flex align-items-center">

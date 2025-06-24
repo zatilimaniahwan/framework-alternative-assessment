@@ -78,6 +78,7 @@
 <script>
   $(document).ready(function () {
     var table = $('#datatable').DataTable();
+     $('.dataTables_filter').hide();
 
     // Apply the search for each column
     $('#datatable thead tr:eq(1) th input').on('keyup change', function () {

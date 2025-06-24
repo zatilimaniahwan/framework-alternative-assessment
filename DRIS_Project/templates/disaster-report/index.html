@@ -10,6 +10,13 @@
       </a>
     {% endif %}
   </div>
+  <form method="get" class="mb-3" id="search-form">
+    <div class="input-group">
+      <input type="text" name="search" id="search-input" class="form-control" placeholder="Search reports..." value="{{ search_query|default:'' }}">
+</button>
+      <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+  </form>
   {% include "components/table/table.html" with columns=columns data=data %} 
 
   <!-- Add Aid Request Modal -->
@@ -68,6 +75,20 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
       });
+    });
+  }
+
+  var searchInput = document.getElementById('search-input');
+  var clearBtn = document.getElementById('clear-search');
+  if (clearBtn && searchInput) {
+    clearBtn.addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent form submission
+      searchInput.value = '';
+      document.getElementById('search-form').submit();
+    });
+    // Show/hide clear button based on input
+    searchInput.addEventListener('input', function() {
+      clearBtn.style.display = searchInput.value ? 'inline-block' : 'none';
     });
   }
 });

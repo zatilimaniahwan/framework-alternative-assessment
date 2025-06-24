@@ -113,7 +113,20 @@ def get_disaster_report_field_config(edit_id=None, data=None, request=None, is_e
 
 class DisasterReportView(View):
     def get(self, request):
+        search_query = request.GET.get('search', '').strip()
         reports = DisasterReport.objects.all()
+        if search_query:
+            reports = reports.filter(
+                disaster_type__icontains=search_query
+            ) | reports.filter(
+                description__icontains=search_query
+            ) | reports.filter(
+                gps_coordinates__icontains=search_query
+            ) | reports.filter(
+                severity_level__icontains=search_query
+            ) | reports.filter(
+                status__icontains=search_query
+            )
         columns = get_disaster_report_columns()
         edit_id = request.GET.get('edit')
         show_modal = False
@@ -141,12 +154,13 @@ class DisasterReportView(View):
             show_modal = True
 
         return render(request, 'disaster-report/index.html', {
-            'data': reports,
+            'data': reports.distinct(),
             'columns': columns,
             'fieldConfig': fieldConfig,
             'show_modal': show_modal,
             'edit_id': edit_id or '',
             'user_role': user_role,
+            'search_query': search_query,
         })
 
     def post(self, request):

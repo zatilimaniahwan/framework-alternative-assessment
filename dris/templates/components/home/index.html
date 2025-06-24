@@ -1,60 +1,116 @@
 {% extends "base.html" %}
 {% block title %}{{ site_name }}{% endblock %}
 {% block content %}
-{% if not request.user.is_authenticated %}
 <div class="container mt-3">
   <div class="row mb-4">
-    <!-- Shelter Card -->
-    <div class="col-md-3 mb-3">
-      <div class="card text-center shadow h-100">
-        <div class="card-body">
-          <div class="mb-2">
-            <i class="fas fa-home fa-2x text-primary"></i>
+    {% if show_all_cards %}
+      <!-- Disaster Report Card -->
+      <div class="col-md-3 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+            </div>
+            <h5 class="card-title">Disaster Reports</h5>
+            <h2 class="card-text">{{ disaster_report_count }}</h2>
           </div>
-          <h5 class="card-title">Shelters</h5>
-          <h2 class="card-text">{{ shelter_count }}</h2>
         </div>
       </div>
-    </div>
-    <!-- Disaster Report Card -->
-    <div class="col-md-3 mb-3">
-      <div class="card text-center shadow h-100">
-        <div class="card-body">
-          <div class="mb-2">
-            <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+      <!-- Aid Request Card -->
+      <div class="col-md-3 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-hands-helping fa-2x text-success"></i>
+            </div>
+            <h5 class="card-title">Aid Requests</h5>
+            <h2 class="card-text">{{ aid_request_count }}</h2>
           </div>
-          <h5 class="card-title">Disaster Reports</h5>
-          <h2 class="card-text">{{ disaster_report_count }}</h2>
         </div>
       </div>
-    </div>
-    <!-- Aid Request Card -->
-    <div class="col-md-3 mb-3">
-      <div class="card text-center shadow h-100">
-        <div class="card-body">
-          <div class="mb-2">
-            <i class="fas fa-hands-helping fa-2x text-success"></i>
+      <!-- Shelter Card -->
+      <div class="col-md-3 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-home fa-2x text-primary"></i>
+            </div>
+            <h5 class="card-title">Shelters</h5>
+            <h2 class="card-text">{{ shelter_count }}</h2>
           </div>
-          <h5 class="card-title">Aid Requests</h5>
-          <h2 class="card-text">{{ aid_request_count }}</h2>
         </div>
       </div>
-    </div>
-    <!-- Volunteer Card -->
-    <div class="col-md-3 mb-3">
-      <div class="card text-center shadow h-100">
-        <div class="card-body">
-          <div class="mb-2">
-            <i class="fas fa-user-friends fa-2x text-info"></i>
+      <!-- Volunteer Card -->
+      <div class="col-md-3 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-user-friends fa-2x text-info"></i>
+            </div>
+            <h5 class="card-title">Volunteers</h5>
+            <h2 class="card-text">{{ volunteer_count }}</h2>
           </div>
-          <h5 class="card-title">Volunteers</h5>
-          <h2 class="card-text">{{ volunteer_count }}</h2>
         </div>
       </div>
-    </div>
+    {% elif show_disaster_and_aid %}
+      <!-- Disaster Report Card -->
+      <div class="col-md-6 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+            </div>
+            <h5 class="card-title">
+              Disaster Reports
+            </h5>
+            <h2 class="card-text">{{ disaster_report_count }}</h2>
+          </div>
+        </div>
+      </div>
+      <!-- Aid Request Card -->
+      <div class="col-md-6 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-hands-helping fa-2x text-success"></i>
+            </div>
+            <h5 class="card-title">
+              Aid Requests
+            </h5>
+            <h2 class="card-text">{{ aid_request_count }}</h2>
+          </div>
+        </div>
+      </div>
+    {% elif show_shelter_and_volunteer %}
+      <!-- Shelter Card -->
+      <div class="col-md-6 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-home fa-2x text-primary"></i>
+            </div>
+            <h5 class="card-title">Shelters</h5>
+            <h2 class="card-text">{{ shelter_count }}</h2>
+          </div>
+        </div>
+      </div>
+      <!-- Volunteer Card -->
+      <div class="col-md-6 mb-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <div class="mb-2">
+              <i class="fas fa-user-friends fa-2x text-info"></i>
+            </div>
+            <h5 class="card-title">Volunteers</h5>
+            <h2 class="card-text">{{ volunteer_count }}</h2>
+          </div>
+        </div>
+      </div>
+    {% endif %}
   </div>
 
   <!-- Info Section -->
+
   <div class="row">
     <div class="col-12">
       <div class="card border-info mb-3">
@@ -72,5 +128,5 @@
     </div>
   </div>
 </div>
-{% endif %}
+
 {% endblock %}

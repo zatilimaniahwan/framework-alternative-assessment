@@ -6,13 +6,13 @@ from ShelterDirectory.models import  Shelter
 # This model represents an aid request made by a user for assistance, which can be related to a specific shelter or general aid.
 class AidRequest(models.Model):
     id = models.AutoField(primary_key=True)
-    requester_name = models.ForeignKey(Citizen, on_delete=models.CASCADE, related_name='aid_requests')
+    requester_name = models.CharField(max_length=255)
     aid_type = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     shelter_id = models.ForeignKey(Shelter, on_delete=models.CASCADE, related_name='aid_requests', null=True, blank=True)
     address = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=15)
-    email = models.ForeignKey(Citizen, on_delete=models.CASCADE, related_name='aid_request_emails')
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    email = models.EmailField(max_length=255)
     status = models.CharField(max_length=50, choices=[
         ('open', 'Open'),
         ('in_progress', 'In Progress'),

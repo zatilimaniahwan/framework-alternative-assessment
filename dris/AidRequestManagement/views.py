@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 def get_aid_request_columns():
     return [
-        {'key': 'id', 'label': 'ID'},
         {'key': 'requester_name', 'label': 'Requester'},
         {'key': 'aid_type', 'label': 'Aid Type'},
         {'key': 'status', 'label': 'Status'},
@@ -32,10 +31,21 @@ def get_aid_request_field_config(edit_id=None, data=None, request=None, is_edit=
     # Set requester_name value and disabled if request is provided and user is authenticated
     requester_value = data.get('requester_name', '')
     requester_disabled = False
+    address_value = data.get('address', '')
+    phone_value = data.get('phone_number', '')
+    email_value = data.get('email', '')
+    address_disabled = phone_disabled = email_disabled = False
+
     if request and request.user.is_authenticated:
         full_name = f"{request.user.first_name} {request.user.last_name}".strip()
         requester_value = full_name if full_name else (request.user.username or request.user.email)
         requester_disabled = True
+        citizen = Citizen.objects.filter(user=request.user).first()
+        if citizen:
+            address_value = citizen.address
+            phone_value = phone_value
+            email_value = citizen.user.email
+            address_disabled = phone_disabled = email_disabled = True
 
     # Status field: only show for authorities when editing
     show_status = True
@@ -99,11 +109,32 @@ def get_aid_request_field_config(edit_id=None, data=None, request=None, is_edit=
             'disabled': requester_disabled,
         },
         aid_type_field,
-        {'type': 'textarea', 'name': 'description', 'label': 'Description', 'required': True, 'value': data.get('description', '')},
+        {'type': 'textarea', 'name': 'description', 'label': 'Description', 'required': False, 'value': data.get('description', '')},
         shelter_field,
-        {'type': 'text', 'name': 'address', 'label': 'Address', 'required': True, 'value': data.get('address', '')},
-        {'type': 'text', 'name': 'phone_number', 'label': 'Phone', 'required': True, 'value': data.get('phone_number', '')},
-        {'type': 'text', 'name': 'email', 'label': 'Email', 'required': True, 'value': data.get('email', '')},
+        {
+            'type': 'text',
+            'name': 'address',
+            'label': 'Address',
+            'required': True,
+            'value': address_value,
+            'disabled': address_disabled,
+        },
+        {
+            'type': 'text',
+            'name': 'phone_number',
+            'label': 'Phone',
+            'required': False,
+            'value': phone_value,
+            'disabled': phone_disabled,
+        },
+        {
+            'type': 'text',
+            'name': 'email',
+            'label': 'Email',
+            'required': True,
+            'value': email_value,
+            'disabled': email_disabled,
+        },
     ]
     if show_status:
         fields.append(status_field)
@@ -156,6 +187,8 @@ class AidRequestView(View):
         errors = {}
 
         for field in fieldConfig:
+            if field['name'] in ['address', 'email']:
+                continue
             if field.get('required') and not data.get(field['name']):
                 errors[field['name']] = f"{field['label']} is required."
 
@@ -182,13 +215,13 @@ class AidRequestView(View):
                 AidRequest.objects.create(
                     aid_type=data['aid_type'],
                     description=data['description'],
-                    address=data['address'],
+                    address=citizen.address,
                     phone_number=data['phone_number'],
                     status=data.get('status', 'open'),
-                    requester_name=requester_name,
+                    requester_name=requester_name,  # <-- assign the Citizen instance
                     created_by=citizen,
                     shelter_id=data.get('shelter_id') or None,
-                    email=data.get('email', ''),
+                    email=citizen.user.email,
                 )
             except Exception as e:
                 logger.error(f"Error creating AidRequest: {e} | Data: {data}")

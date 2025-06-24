@@ -18,6 +18,18 @@
         {% endif %}
       {% endfor %}
     </tr>
+    <tr>
+      <th></th>
+      {% for col in columns %}
+        {% if col.type == "action" %}
+          {% if user_role == "authorities" %}
+            <th></th>
+          {% endif %}
+        {% else %}
+          <th><input type="text" placeholder="Filter {{ col.label }}" style="width: 100%;"/></th>
+        {% endif %}
+      {% endfor %}
+    </tr>
   </thead>
  <tbody>
     {% for row in data %}
@@ -33,7 +45,7 @@
                       <i class="fas fa-pencil-alt"></i> Edit
                     </a>
                   {% elif action.label == "View Volunteers" %}
-                    <a href="{% url action.url_name row.id %}" class="btn {{ action.class|default:'btn-primary' }}">
+                    <a href="{% url action.url_name row.id %}" class="btn btn-md {{ action.class|default:'btn-primary' }} mt-3">
                       <i class="fas fa-users"></i> View Volunteers
                     </a>
                   {% elif action.label == "Assign to Task" %}
@@ -44,7 +56,7 @@
                     {% else %}
                       <form method="post" action="{% url 'volunteer:assign_volunteer_to_task' task.id row.id %}" style="display:inline;">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-warning">
+                        <button type="submit" class="btn btn-md btn-warning">
                           <i class="fas fa-user-plus"></i> Assign to Task
                         </button>
                       </form>
@@ -65,6 +77,12 @@
 </table>
 <script>
   $(document).ready(function () {
-    $('#datatable').DataTable();
+    var table = $('#datatable').DataTable();
+
+    // Apply the search for each column
+    $('#datatable thead tr:eq(1) th input').on('keyup change', function () {
+      var colIdx = $(this).parent().index();
+      table.column(colIdx).search(this.value).draw();
+    });
   });
 </script>

@@ -50,6 +50,7 @@
           </div>
         </li>
         {% if request.user.is_authenticated %}
+           {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -61,14 +62,13 @@
               >Aids Request</a
             >
             <div class="dropdown-menu">
-              {% if request.user.role and request.user.role.name == 'citizens' %}
-                <a class="dropdown-item" href="#">Create a New Request</a>
-              {% endif %}
               {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'citizens' %}
               <a class="dropdown-item" {% if request.path == '/aid/list' %}active{% endif %}" href="{% url 'aid:aid_request_list' %}">View Request</a>
               {% endif %}
             </div>
           </li>
+          {% endif %}
+           {% if request.user.role and request.user.role.name == 'authorities' or request.user.role.name == 'volunteers' %}
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -88,6 +88,7 @@
               {% endif %}
             </div>
           </li>
+          {% endif %}
              <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"

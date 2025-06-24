@@ -1,0 +1,15 @@
+     <label for="{{ field.id|default:field.name }}" class="col-sm-2 col-form-label">
+        {{ field.label|default:'' }}
+        {% if field.required %}<span class="text-danger">*</span>{% endif %}</label>
+<div class="form-check">
+    <input
+        class="form-check-input"
+        type="checkbox"
+        name="{{ field.name }}"
+        id="{{ field.id|default:field.name }}"
+        value="1"
+        {% if field.value %}checked{% endif %}
+        {% if field.required %}required{% endif %}
+        {% if field.disabled %}disabled{% endif %}
+    >
+</div>

@@ -14,3 +14,34 @@
   {% include "components/form/form.html" with fieldConfig=fieldConfig submit_label="Register" %}
 </div>
 {% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function updateRoleFields() {
+    var roleSelect = document.querySelector('[name="role"]');
+    var selectedRole = roleSelect ? roleSelect.value : '';
+    // Disable all role-based fields by default
+    document.querySelectorAll('.role-field input, .role-field select, .role-field textarea').forEach(function(input) {
+      input.disabled = true;
+    });
+    // Enable only the fields for the selected role
+    if (selectedRole) {
+      document.querySelectorAll('.role-' + selectedRole + ' input, .role-' + selectedRole + ' select, .role-' + selectedRole + ' textarea').forEach(function(input) {
+        input.disabled = false;
+      });
+    }
+    // Always enable the base fields
+    ['username', 'email', 'password', 'confirm_password', 'role'].forEach(function(name) {
+      var baseField = document.querySelector('[name="' + name + '"]');
+      if (baseField) baseField.disabled = false;
+    });
+  }
+
+  var roleSelect = document.querySelector('[name="role"]');
+  if (roleSelect) {
+    updateRoleFields();
+    roleSelect.addEventListener('change', updateRoleFields);
+  }
+});
+</script>
+{% endblock %}

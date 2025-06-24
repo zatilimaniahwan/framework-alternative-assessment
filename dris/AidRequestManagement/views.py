@@ -59,7 +59,7 @@ def get_aid_request_field_config(edit_id=None, data=None, request=None, is_edit=
         show_status = False
 
     # Aid type as select
-    aid_type_value = data.get('aid_type', '')
+    aid_type_value = data.get('aid_type', 'food')  # Default to 'food' if not provided
     aid_type_field = {
         'type': 'select',
         'name': 'aid_type',
@@ -81,7 +81,7 @@ def get_aid_request_field_config(edit_id=None, data=None, request=None, is_edit=
         'type': 'select',
         'name': 'shelter_id',
         'label': 'Shelter',
-        'required': aid_type_value.lower() == 'shelter',
+        'required': aid_type_value == 'shelter',
         'options': [
             {'value': shelter.id, 'label': f"{shelter.code} - {shelter.name} ({shelter.location})"}
             for shelter in available_shelters

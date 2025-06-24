@@ -9,6 +9,8 @@
     {% include "components/text-area/text-area.html" with field=field %}
   {% elif field.type == "file" %}
     {% include "components/file-input/file-input.html" with field=field %}
+  {% elif field.type == "checkbox" %}
+    {% include "components/input-checkbox/input-checkbox.html" with field=field %}
   {% else %}
     {% include "components/input/input.html" with field=field %}
   {% endif %}
